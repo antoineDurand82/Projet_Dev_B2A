@@ -48,7 +48,7 @@ public class Server {
 	}
 	
 	public Server() {
-		
+		clientConnection();
 		
 	}
 }
