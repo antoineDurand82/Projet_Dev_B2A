@@ -4,6 +4,7 @@ import java.awt.*;
 
 import com.b2a.server.MyButtonListener;
 import com.b2a.server.MyCardListener;
+import com.b2a.view.InfoPanel;
 
 public interface GameConstants extends UNOConstants {
 	 
@@ -13,7 +14,7 @@ public interface GameConstants extends UNOConstants {
 	Color[] UNO_COLORS = {RED, BLUE, GREEN, YELLOW};
 	Color WILD_CARDCOLOR = BLACK;
 	
-	int[] UNO_MEMBERS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	int[] UNO_NUMBERS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	String[] ActionTypes = {REVERSE, SKIP, DRAW2PLUS};
 	String[] WildTypes = {W_COLORPICKER, W_DRAW4PLUS};
 	

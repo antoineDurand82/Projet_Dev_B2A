@@ -1,12 +1,18 @@
 package com.b2a.server;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
+import com.b2a.cardModel.WildCard;
+import com.b2a.game.Game;
+import com.b2a.game.Player;
 import com.b2a.interfaces.GameConstants;
+import com.b2a.view.Session;
+import com.b2a.view.UNOCard;
 
 
 public class GameSession implements GameConstants {
@@ -136,7 +142,7 @@ public class GameSession implements GameConstants {
 		else if (playedCard.getType() == WILD) {
 			return true;
 		} else if (topCard.getType() == WILD) {
-			Color color = ((WildCard) topCard).getWildCOlor();
+			Color color = ((WildCard) topCard).getWildColor();
 			if(color.equals(playedCard.getColor()))
 				return true;
 		}
@@ -153,7 +159,7 @@ public class GameSession implements GameConstants {
 		else if (actionCard.getValue().equals(REVERSE))
 			this.game.switchTurn();
 		else if (actionCard.getValue().equals(SKIP))
-			this.game.swithTurn();
+			this.game.switchTurn();
 	}
 	
 	private void performWild(WildCard functionCard) {
