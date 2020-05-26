@@ -7,9 +7,9 @@ import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
-import CardModel.*;
-import Interfaces.GameConstants;
-import View.UNOCard;
+import com.b2a.cardModel.*;
+import com.b2a.interfaces.GameConstants;
+import com.b2a.view.UNOCard;
 
 public class Game implements GameConstants {
 	

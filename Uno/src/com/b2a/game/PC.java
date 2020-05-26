@@ -8,9 +8,9 @@ import java.util.LinkedList;
 
 import javax.sound.midi.Receiver;
 
-import CardModel.WildCard;
-import Interfaces.GameConstants;
-import View.UNOCard;
+import com.b2a.cardModel.WildCard;
+import com.b2a.interfaces.GameConstants;
+import com.b2a.view.UNOCard;
 
 public class PC extends Player implements GameConstants {
 

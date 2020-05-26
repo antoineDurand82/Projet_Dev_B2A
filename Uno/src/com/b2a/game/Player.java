@@ -2,7 +2,7 @@ package com.b2a.game;
 
 import java.util.LinkedList;
 
-import View.UNOCard;
+import com.b2a.view.UNOCard;
 
 public class Player {
 	

@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
-import CardModel.CardDeck;
-import Interfaces.GameConstants;
-import View.PlayerPanel;
-import View.UNOCard;
+import com.b2a.interfaces.GameConstants;
+import com.b2a.view.PlayerPanel;
+import com.b2a.view.UNOCard;
+import com.b2a.cardModel.CardDeck;
 
 public class Dealer implements GameConstants {
 	
