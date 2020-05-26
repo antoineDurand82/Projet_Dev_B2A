@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import com.b2a.view.UNOCard;
+
 public class MyCardListener extends MouseAdapter {
 	
 	UNOCard sourceCard;
@@ -14,11 +16,11 @@ public class MyCardListener extends MouseAdapter {
 	}
 	
 	public void mousePressed(MouseEvent e) {
-		sourceCard = (UNOCard) e.getSource();
+		this.sourceCard = (UNOCard) e.getSource();
 		
 		try {
-			if(myGameSession.canPlay)
-				myGameSession.playThisCard(sourceCard);
+			if(this.myGameSession.canPlay)
+				this.myGameSession.playThisCard(sourceCard);
 		} catch (NullPointerException exc) {
 			exc.printStackTrace();
 		}
@@ -28,18 +30,18 @@ public class MyCardListener extends MouseAdapter {
 	public void mouseEntered(MouseEvent e) {
 		super.mouseEntered(e);
 		
-		sourceCard = (UNOCard) e.getSource();
-		Point p = soucreCard.getLocation();
+		this.sourceCard = (UNOCard) e.getSource();
+		Point p = this.sourceCard.getLocation();
 		p.y -=20;
-		sourceCard.setLocation(p);
+		this.sourceCard.setLocation(p);
 	}
 	
 	@Override
 	public void mouseExited(MouseEvent e) {
-		sourceCard = (UNOCard) e.getSource();
-		Point p = sourceCard.getLocation();
+		this.sourceCard = (UNOCard) e.getSource();
+		Point p = this.sourceCard.getLocation();
 		p.y +=20;
-		sourceCard.setLocation(p);
+		this.sourceCard.setLocation(p);
 	}
 	
 	@Override

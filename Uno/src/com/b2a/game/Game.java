@@ -33,10 +33,10 @@ public class Game implements GameConstants {
 			pc = new PC();
 		
 		Player player1 = (GAMEMODE == MANUAL) ? pc : new Player(name);
-		Player player2 ) new Player(name2);
+		Player player2 = new Player(name2);
 		player2.toggleTurn();
 		
-		players = new Player[](player1, player2);
+		players = new Player[] {player1, player2};
 		
 		// Create Dealer
 		dealer = new Dealer();
@@ -55,7 +55,7 @@ public class Game implements GameConstants {
 		return dealer.getCard();
 	}
 	
-	public void removePlayerCard(UNOCard playedCard){
+	public void removePlayedCard(UNOCard playedCard){
 
 		for (Player p : players) {
 			if (p.hasCard(playedCard)){
