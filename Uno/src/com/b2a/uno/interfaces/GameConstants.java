@@ -2,8 +2,8 @@ package com.b2a.uno.interfaces;
 
 import java.awt.*;
 
-import com.b2a.server.MyButtonListener;
-import com.b2a.server.MyCardListener;
+import com.b2a.serversession.MyButtonListener;
+import com.b2a.serversession.MyCardListener;
 import com.b2a.uno.view.InfoPanel;
 
 public interface GameConstants extends UNOConstants {

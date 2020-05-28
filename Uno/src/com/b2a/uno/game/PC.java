@@ -1,13 +1,8 @@
 package com.b2a.uno.game;
 
 
-import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
-
-import javax.sound.midi.Receiver;
-
 import com.b2a.uno.cardModel.WildCard;
 import com.b2a.uno.interfaces.GameConstants;
 import com.b2a.uno.view.UNOCard;

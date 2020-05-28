@@ -1,8 +1,5 @@
 package com.b2a.uno.game;
 
-import java.awt.Color;
-import java.util.LinkedList;
-import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.JOptionPane;

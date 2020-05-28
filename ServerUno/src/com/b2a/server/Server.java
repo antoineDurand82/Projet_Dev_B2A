@@ -1,5 +1,8 @@
 package com.b2a.server;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,18 +19,18 @@ public class Server {
 	}
 	
 	private ArrayList<String> noms = new ArrayList<>();
-	// méthode stockeNom(String)
+	// mï¿½thode stockeNom(String)
 	public int stockeNom(String nom) {
 		noms.add(nom);
 		System.out.println("Identifiant " + nom + " (indice " + (noms.size()-1) + ")");
 		return noms.size()-1;
 	}
 	
-	// méthode getNbClients()
+	// mï¿½thode getNbClients()
 	public int getNbClients() {
 		return noms.size();
 	}
-	// méthode getAutre(int)
+	// mï¿½thode getAutre(int)
 	public String getAutre(int i) {
 		return (i == 0)?noms.get(1):noms.get(0);
 	}
@@ -39,6 +42,9 @@ public class Server {
 			while(true) {
 				socket = serverSocket.accept();
 				System.out.println("A client has logged in !");
+				PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
+			    BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			    socketOut.println("Oui c'est bien la connexion au serveur");
 				if (this.numberOfThreads < 4) {
 					ServerThread serverThread = new ServerThread(this, socket);
 					Thread thread = new Thread(serverThread);

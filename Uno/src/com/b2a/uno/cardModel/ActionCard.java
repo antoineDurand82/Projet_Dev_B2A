@@ -6,8 +6,12 @@ import com.b2a.uno.view.UNOCard;
 
 public class ActionCard extends UNOCard{
 	
-	private int Function = 0;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2231562716638631347L;
+
 	//Constructor
 	public ActionCard(){
 	}

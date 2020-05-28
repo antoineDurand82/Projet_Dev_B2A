@@ -1,4 +1,4 @@
-package com.b2a.server;
+package com.b2a.serversession;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;

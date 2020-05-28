@@ -6,6 +6,11 @@ import com.b2a.uno.view.UNOCard;
 
 public class NumberCard extends UNOCard {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1891864707677821854L;
+
 	public NumberCard(){
 	}
 	

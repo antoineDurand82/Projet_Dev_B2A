@@ -3,12 +3,7 @@ package com.b2a.uno.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.b2a.uno.game.Game;
@@ -16,6 +11,10 @@ import com.b2a.uno.game.Game;
 
 
 public class Session extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4472933234685001818L;
 	private PlayerPanel player1;
 	private PlayerPanel player2;
 	private TablePanel table;	

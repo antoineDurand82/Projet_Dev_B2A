@@ -1,13 +1,11 @@
 package com.b2a.uno.game;
 
-import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
 import com.b2a.uno.cardModel.CardDeck;
 import com.b2a.uno.interfaces.GameConstants;
-import com.b2a.uno.view.PlayerPanel;
 import com.b2a.uno.view.UNOCard;
 
 public class Dealer implements GameConstants {

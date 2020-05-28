@@ -1,6 +1,10 @@
-package com.b2a.server;
+package com.b2a.serversession;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
@@ -25,7 +29,23 @@ public class GameSession implements GameConstants {
 	
 	public GameSession() {
 		this.mode = requestMode();
-		this.game = new Game(mode);
+		if (mode == 2) {
+			try {
+				Socket socket = new Socket("localhost", 4567);
+				PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
+			    BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			    String test = socketIn.readLine();
+			    System.out.println(test);
+			    socketOut.close();
+			    socket.close();
+			} catch (Exception exc) {
+				System.err.println(exc.getMessage());
+			}
+			
+			
+		} else {
+			this.game = new Game(mode);
+		}
 		this.playedCards = new Stack<UNOCard>();
 		
 		// First Card
@@ -38,6 +58,7 @@ public class GameSession implements GameConstants {
 		this.game.whoseTurn();
 		this.canPlay = true;
 	}
+	
 	
 	
 	private int requestMode() {

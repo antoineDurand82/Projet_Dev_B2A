@@ -21,6 +21,10 @@ import com.b2a.uno.interfaces.UNOConstants;
 
 public abstract class UNOCard extends JPanel implements CardInterface, UNOConstants {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8812247644048412215L;
 	private Color cardColor = null;
 	private String value = null;
 	private int type = 0;

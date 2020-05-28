@@ -1,21 +1,11 @@
 package com.b2a.uno.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.LayoutManager;
-
-import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
 import com.b2a.uno.cardModel.WildCard;
 import com.b2a.uno.interfaces.GameConstants;
 
@@ -23,6 +13,10 @@ import com.b2a.uno.interfaces.GameConstants;
 
 public class TablePanel extends JPanel implements GameConstants {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3732014887896829642L;
 	private UNOCard topCard;	
 	private JPanel table;
 	

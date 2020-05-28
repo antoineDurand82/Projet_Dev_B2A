@@ -3,7 +3,7 @@ package com.b2a.uno.cardModel;
 import java.awt.Color;
 import java.util.LinkedList;
 
-import com.b2a.server.MyCardListener;
+import com.b2a.serversession.MyCardListener;
 import com.b2a.uno.interfaces.GameConstants;
 import com.b2a.uno.view.UNOCard;
 
@@ -12,18 +12,18 @@ import com.b2a.uno.view.UNOCard;
  */
 public class CardDeck implements GameConstants {
 	
-	private final LinkedList<NumberCard> numberCards;
-	private final LinkedList<ActionCard> actionCards;
-	private final LinkedList<WildCard> wildCards;
+//	private final LinkedList<NumberCard> numberCards;
+//	private final LinkedList<ActionCard> actionCards;
+//	private final LinkedList<WildCard> wildCards;
 	
 	private LinkedList<UNOCard> UNOcards;
 	
 	public CardDeck(){
 		
-		//Initialize Cards
-		numberCards = new LinkedList<NumberCard>();
-		actionCards = new LinkedList<ActionCard>();
-		wildCards = new LinkedList<WildCard>();
+//		//Initialize Cards
+//		numberCards = new LinkedList<NumberCard>();
+//		actionCards = new LinkedList<ActionCard>();
+//		wildCards = new LinkedList<WildCard>();
 		
 		UNOcards = new LinkedList<UNOCard>();
 		

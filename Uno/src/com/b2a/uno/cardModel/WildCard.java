@@ -6,7 +6,10 @@ import com.b2a.uno.view.UNOCard;
 
 public class WildCard extends UNOCard {
 	
-	private int Function = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -534578921049494922L;
 	private Color chosenColor;
 	
 	public WildCard() {

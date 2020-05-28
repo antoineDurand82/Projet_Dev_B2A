@@ -1,8 +1,5 @@
 package com.b2a.uno.main;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
