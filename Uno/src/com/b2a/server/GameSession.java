@@ -7,12 +7,12 @@ import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
-import com.b2a.cardModel.WildCard;
-import com.b2a.game.Game;
-import com.b2a.game.Player;
-import com.b2a.interfaces.GameConstants;
-import com.b2a.view.Session;
-import com.b2a.view.UNOCard;
+import com.b2a.uno.cardModel.WildCard;
+import com.b2a.uno.game.Game;
+import com.b2a.uno.game.Player;
+import com.b2a.uno.interfaces.GameConstants;
+import com.b2a.uno.view.Session;
+import com.b2a.uno.view.UNOCard;
 
 
 public class GameSession implements GameConstants {

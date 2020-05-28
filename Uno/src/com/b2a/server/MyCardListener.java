@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import com.b2a.view.UNOCard;
+import com.b2a.uno.view.UNOCard;
 
 public class MyCardListener extends MouseAdapter {
 	
