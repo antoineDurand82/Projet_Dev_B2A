@@ -2,6 +2,7 @@ package com.b2a.serversession;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,6 +16,7 @@ import com.b2a.uno.cardModel.WildCard;
 import com.b2a.uno.game.Game;
 import com.b2a.uno.game.Player;
 import com.b2a.uno.interfaces.GameConstants;
+import com.b2a.uno.main.Main;
 import com.b2a.uno.view.Session;
 import com.b2a.uno.view.UNOCard;
 
@@ -27,25 +29,25 @@ public class GameSession implements GameConstants {
 	public boolean canPlay;
 	private int mode;
 	
-	public GameSession() {
+	public GameSession() throws ClassNotFoundException, IOException {
 		this.mode = requestMode();
-		if (mode == 2) {
-			try {
-				Socket socket = new Socket("localhost", 4567);
-				PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-			    BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			    String test = socketIn.readLine();
-			    System.out.println(test);
-			    socketOut.close();
-			    socket.close();
-			} catch (Exception exc) {
-				System.err.println(exc.getMessage());
-			}
-			
-			
-		} else {
+//		if (mode == 2) {
+//			try {
+//				Socket socket = new Socket("localhost", 4567);
+//				PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
+//			    BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//			    String test = socketIn.readLine();
+//			    System.out.println(test);
+//			    socketOut.close();
+//			    socket.close();
+//			} catch (Exception exc) {
+//				System.err.println(exc.getMessage());
+//			}
+//			
+//			
+//		} else {
 			this.game = new Game(mode);
-		}
+//		}
 		this.playedCards = new Stack<UNOCard>();
 		
 		// First Card
@@ -94,7 +96,7 @@ public class GameSession implements GameConstants {
 		return this.session;
 	}
 	
-	public void playThisCard(UNOCard clickedCard) {
+	public void playThisCard(UNOCard clickedCard) throws ClassNotFoundException, IOException {
 		// Check player's turn
 		if(!isHisTurn(clickedCard)) {
 			infoPanel.setError("It's not your turn");
@@ -110,46 +112,30 @@ public class GameSession implements GameConstants {
 				// function cards ??
 				
 				switch (clickedCard.getType()) {
-				case ACTION:
-					performAction(clickedCard);
-					break;
 				case WILD:
-					performWild((WildCard) clickedCard);
+					clickedCard = performWild((WildCard) clickedCard);
 					break;
 				default:
 					break;
 				}
 				
-				this.game.switchTurn();
 				this.session.updatePanel(clickedCard);
-				checkResults();
 			} else {
 				infoPanel.setError("invalid move");
 				infoPanel.repaint();
 			}
 		}
-		
-		if(this.mode == vsPC && this.canPlay) {
-			if(this.game.isPCsTurn()) {
-				this.game.playPC(peekTopCard());
-			}
-		}
-	}
-	
-	private void checkResults() {
-		if (this.game.isOver()) {
-			this.canPlay = false;
-			infoPanel.updateText("GAME OVER");
-		}
 	}
 	
 	// check player's turn
 	public boolean isHisTurn(UNOCard clickedCard) {
-		for (Player p : game.getPlayers()) {
-			if (p.hasCard(clickedCard) && p.isMyTurn()) {
+//		for (Player p : game.getPlayers()) {
+		// TODO
+		// CHANGER LE GAME.GETPLAYERS POUR RECUP DEPUIS SERVEUR
+			if (Main.getPlayer().hasCard(clickedCard) && Main.getPlayer().isMyTurn()) {
 				return true;
 			}
-		}
+//		}
 		return false;
 	}
 	
@@ -172,49 +158,26 @@ public class GameSession implements GameConstants {
 	
 	// Action Cards
 	
-	private void performAction(UNOCard actionCard) {
+	
+	private WildCard performWild(WildCard functionCard) {
 		
-		// Draw2PLUS
-		if(actionCard.getValue().equals(DRAW2PLUS))
-			this.game.drawPlus(2);
-		else if (actionCard.getValue().equals(REVERSE))
-			this.game.switchTurn();
-		else if (actionCard.getValue().equals(SKIP))
-			this.game.switchTurn();
+		ArrayList<String> colors = new ArrayList<String>();
+		colors.add("RED");
+		colors.add("BLUE");
+		colors.add("GREEN");
+		colors.add("YELLOW");
+		
+		String chosenColor = (String) JOptionPane.showInputDialog(null,
+				"Choose a color", "Wild Card Color",
+				JOptionPane.DEFAULT_OPTION, null, colors.toArray(), null);
+		
+		functionCard.useWildColor(UNO_COLORS[colors.indexOf(chosenColor)]);
+		return functionCard;
+
 	}
 	
-	private void performWild(WildCard functionCard) {
-		
-		if(this.mode == 1 && this.game.isPCsTurn()) {
-			int random = new Random().nextInt() % 4;
-			functionCard.useWildColor(UNO_COLORS[Math.abs(random)]);
-		} else {
-			
-			ArrayList<String> colors = new ArrayList<String>();
-			colors.add("RED");
-			colors.add("BLUE");
-			colors.add("GREEN");
-			colors.add("YELLOW");
-			
-			String chosenColor = (String) JOptionPane.showInputDialog(null,
-					"Choose a color", "Wild Card Color",
-					JOptionPane.DEFAULT_OPTION, null, colors.toArray(), null);
-			
-			functionCard.useWildColor(UNO_COLORS[colors.indexOf(chosenColor)]);
-		}
-		
-		if (functionCard.getValue().equals(W_DRAW4PLUS))
-			this.game.drawPlus(4);
-	}
-	
-	public void requestCard() {
+	public void requestCard() throws ClassNotFoundException, IOException {
 		this.game.drawCard(peekTopCard());
-		
-		if(this.mode == vsPC && this.canPlay) {
-			if (this.game.isPCsTurn())
-				this.game.playPC(peekTopCard());
-		}
-		
 		session.refreshPanel();
 	}
 	
@@ -225,6 +188,7 @@ public class GameSession implements GameConstants {
 	public void submitSaidUNO() {
 		this.game.setSaidUNO();
 	}
+	// TODO
 
 	
 	

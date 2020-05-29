@@ -1,11 +1,16 @@
 package com.b2a.uno.game;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
+import org.json.JSONObject;
+
 import com.b2a.uno.cardModel.*;
 import com.b2a.uno.interfaces.GameConstants;
+import com.b2a.uno.main.Main;
 import com.b2a.uno.view.UNOCard;
 
 public class Game implements GameConstants {
@@ -14,45 +19,32 @@ public class Game implements GameConstants {
 	private boolean isOver;
 	private int GAMEMODE;
 	
-	private PC pc;
-	private Dealer dealer;
 	private Stack<UNOCard> cardStack;
 	
 	
 	public Game(int mode){
 		
 		GAMEMODE = mode;
-		
-		//Create players
-		String name = (GAMEMODE==MANUAL) ? JOptionPane.showInputDialog("Player 1") : "PC";	
-		String name2 = JOptionPane.showInputDialog("Player 2");
-		
-		if(GAMEMODE==vsPC)
-			pc = new PC();
-		
-		Player player1 = (GAMEMODE==vsPC) ? pc : new Player(name);
-		Player player2 = new Player(name2);		
-		player2.toggleTurn();				//Initially, player2's turn		
-			
-		players = new Player[]{player1, player2};			
-		
-		//Create Dealer
-		dealer = new Dealer();
-		cardStack = dealer.shuffle();
-		dealer.spreadOut(players);
-		
-		isOver = false;
 	}
 
 	public Player[] getPlayers() {
 		return players;
 	}
 
-	public UNOCard getCard() {
-		return dealer.getCard();
+	public UNOCard getCard() throws IOException, ClassNotFoundException {
+		JSONObject dataClient = new JSONObject();
+        dataClient.put("askCard", "yes");
+        if(dataClient.toString() != null)
+        	Main.getSocketOut().println(dataClient.toString());
+        ObjectInputStream objectIn = new ObjectInputStream(Main.getSocket().getInputStream());
+        UNOCard cardGiven = (UNOCard) objectIn.readObject();
+        objectIn.close();
+        return cardGiven;
 	}
+//	TODO
+//	GO VOIR AVEC LE SERVER
 	
-	public void removePlayedCard(UNOCard playedCard) {
+	public void removePlayedCard(UNOCard playedCard) throws ClassNotFoundException, IOException {
 
 		for (Player p : players) {
 			if (p.hasCard(playedCard)){
@@ -70,7 +62,7 @@ public class Game implements GameConstants {
 	}
 	
 	//give player a card
-	public void drawCard(UNOCard topCard) {
+	public void drawCard(UNOCard topCard) throws ClassNotFoundException, IOException {
 
 		boolean canPlay = false;
 
@@ -88,14 +80,16 @@ public class Game implements GameConstants {
 	}
 
 	public void switchTurn() {
-		for (Player p : players) {
-			p.toggleTurn();
-		}
-		whoseTurn();
+//		for (Player p : players) {
+//			p.toggleTurn();
+//		}
+//		whoseTurn();
+		// TODO
+//		ENVOI AU SERVEUR QUE MON TOUR EST FINIT
 	}
 	
 	//Draw cards x times
-	public void drawPlus(int times) {
+	public void drawPlus(int times) throws ClassNotFoundException, IOException {
 		for (Player p : players) {
 			if (!p.isMyTurn()) {
 				for (int i = 1; i <= times; i++)
@@ -117,23 +111,6 @@ public class Game implements GameConstants {
 		infoPanel.repaint();
 	}
 	
-	//return if the game is over
-	public boolean isOver() {
-		
-		if(cardStack.isEmpty()){
-			isOver= true;
-			return isOver;
-		}
-		
-		for (Player p : players) {
-			if (!p.hasCards()) {
-				isOver = true;
-				break;
-			}
-		}
-		
-		return isOver;
-	}
 
 	public int remainingCards() {
 		return cardStack.size();
@@ -169,7 +146,7 @@ public class Game implements GameConstants {
 	}
 
 	//Check whether the player said or forgot to say UNO
-	public void checkUNO() {
+	public void checkUNO() throws ClassNotFoundException, IOException {
 		for (Player p : players) {
 			if (p.isMyTurn()) {
 				if (p.getTotalCards() == 1 && !p.getSaidUNO()) {
@@ -189,24 +166,6 @@ public class Game implements GameConstants {
 					infoPanel.setError(p.getName() + " said UNO");
 				}
 			}
-		}
-	}
-	
-	public boolean isPCsTurn(){
-		if(pc.isMyTurn()){
-			return true;
-		}
-		return false;
-	}
-
-	//if it's PC's turn, play it for pc
-	public void playPC(UNOCard topCard) {		
-		
-		if (pc.isMyTurn()) {
-			boolean done = pc.play(topCard);
-			
-			if(!done)
-				drawCard(topCard);
 		}
 	}
 }

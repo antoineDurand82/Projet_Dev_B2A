@@ -1,8 +1,9 @@
-package com.b2a.uno.game;
+package com.b2a.server.uno.game;
 
 import java.util.LinkedList;
 
-import com.b2a.uno.view.UNOCard;
+import com.b2a.server.uno.view.UNOCard;
+
 
 public class Player {
 	
@@ -80,10 +81,5 @@ public class Player {
 	
 	public void setCards(){
 		myCards = new LinkedList<UNOCard>();
-	}
-
-	public void setMyCards(LinkedList<UNOCard> myCards2) {
-		this.myCards = myCards2;
-		
 	}
 }

@@ -2,6 +2,7 @@ package com.b2a.serversession;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class MyButtonListener implements ActionListener {
 	
@@ -11,7 +12,7 @@ public class MyButtonListener implements ActionListener {
 		this.myGameSession = gameSession;
 	}
 	
-	public void drawCard() {
+	public void drawCard() throws ClassNotFoundException, IOException {
 		if(myGameSession.canPlay) {
 			myGameSession.requestCard();
 		}

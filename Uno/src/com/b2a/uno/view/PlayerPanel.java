@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -147,7 +148,12 @@ public class PlayerPanel extends JPanel implements GameConstants {
 			if(player.isMyTurn()){
 				
 				if(e.getSource() == draw)
-					BUTTONLISTENER.drawCard();
+					try {
+						BUTTONLISTENER.drawCard();
+					} catch (ClassNotFoundException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				else if(e.getSource() == sayUNO)
 					BUTTONLISTENER.sayUno();
 			}

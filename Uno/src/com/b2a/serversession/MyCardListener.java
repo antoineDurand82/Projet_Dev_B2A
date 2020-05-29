@@ -3,6 +3,7 @@ package com.b2a.serversession;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import com.b2a.uno.view.UNOCard;
 
@@ -20,7 +21,12 @@ public class MyCardListener extends MouseAdapter {
 		
 		try {
 			if(this.myGameSession.canPlay)
-				this.myGameSession.playThisCard(sourceCard);
+				try {
+					this.myGameSession.playThisCard(sourceCard);
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 		} catch (NullPointerException exc) {
 			exc.printStackTrace();
 		}

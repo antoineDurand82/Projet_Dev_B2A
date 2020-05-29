@@ -1,5 +1,7 @@
 package com.b2a.uno.view;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 import com.b2a.serversession.GameSession;
@@ -15,7 +17,7 @@ public class MainFrame extends JFrame implements GameConstants {
 	private Session mainPanel;
 	private GameSession gameSession;
 	
-	public MainFrame(){	
+	public MainFrame() throws ClassNotFoundException, IOException{	
 		this.gameSession = new GameSession();
 		CARDLISTENER.setGameSession(this.gameSession);
 		BUTTONLISTENER.setGameSession(this.gameSession);

@@ -1,12 +1,14 @@
-package com.b2a.uno.game;
+package com.b2a.server.uno.game;
 
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
-import com.b2a.uno.cardModel.CardDeck;
-import com.b2a.uno.interfaces.GameConstants;
-import com.b2a.uno.view.UNOCard;
+import com.b2a.server.uno.cardModel.CardDeck;
+import com.b2a.server.uno.interfaces.GameConstants;
+import com.b2a.server.uno.view.UNOCard;
+
+
 
 public class Dealer implements GameConstants {
 	
