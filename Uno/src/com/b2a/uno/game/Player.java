@@ -1,10 +1,12 @@
 package com.b2a.uno.game;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
+import com.b2a.uno.game.Player;
 import com.b2a.uno.view.UNOCard;
 
-public class Player {
+public class Player implements Serializable{
 	
 	private String name = null;
 	private boolean isMyTurn = false;
@@ -18,6 +20,11 @@ public class Player {
 	}
 	
 	public Player(String player){
+		setName(player);
+		myCards = new LinkedList<UNOCard>();
+	}
+	
+	public Player(String player, LinkedList<UNOCard> myCards){
 		setName(player);
 		myCards = new LinkedList<UNOCard>();
 	}
@@ -85,5 +92,34 @@ public class Player {
 	public void setMyCards(LinkedList<UNOCard> myCards2) {
 		this.myCards = myCards2;
 		
+	}
+	
+	@Override
+	public String toString() {
+		String stringToReturn = "";
+		String separator = ";";
+		stringToReturn += name + separator;
+		while(!myCards.isEmpty()) {
+			UNOCard card = myCards.pop();
+			stringToReturn += card.toString() + separator;
+		}
+		stringToReturn += "\\n";
+		return stringToReturn;
+	}
+	
+	public static Player fromString(String playerInString) {
+		String[] attributes = playerInString.split(";");
+		String name = attributes[0];
+		LinkedList<UNOCard> myCards = new LinkedList<UNOCard>();
+		if(attributes.length > 2) {
+			for (int i = 1; i < (attributes.length - 1); i ++) {
+				String cardStringed = attributes[i];
+				UNOCard card = UNOCard.fromString(cardStringed);
+				myCards.add(card);
+//				System.out.println(myCards);
+			
+			}
+		}
+		return new Player(name, myCards);
 	}
 }

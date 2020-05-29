@@ -15,9 +15,13 @@ import javax.swing.SwingUtilities;
 
 import org.json.JSONObject;
 
+import com.b2a.serversession.GameSession;
+import com.b2a.uno.game.Game;
 import com.b2a.uno.game.Player;
 import com.b2a.uno.view.MainFrame;
 import com.b2a.uno.view.UNOCard;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class Main {
@@ -26,6 +30,7 @@ public class Main {
 	private static PrintWriter socketOut;
 	private static BufferedReader socketIn;
 	private static Player player;
+	private static GameSession newGameSession;
 	
 	public Main() {
 		try {
@@ -41,22 +46,42 @@ public class Main {
 		
 		try {
             new Main();
-            String name = JOptionPane.showInputDialog("Player 1");
-            setPlayer(new Player(name));
-            JSONObject dataClient = new JSONObject();
-            dataClient.put("name", name);
-            if(dataClient.toString() != null)
-            	socketOut.println(dataClient.toString());
-            String servOut;
-            while((servOut = socketIn.readLine()) != null) {
-                // La tu print ce que le serv t'envoie
-            	JSONObject dataServ = new JSONObject(servOut);
-//            	player1.setMyCards((LinkedList<UNOCard>) dataServ.get("playerHand"));
-            	ObjectInputStream objectIn = new ObjectInputStream(Main.getSocket().getInputStream());
-            	LinkedList<UNOCard> myCards = (LinkedList<UNOCard>) objectIn.readObject();
-            	getPlayer().setMyCards(myCards);
-                objectIn.close();
-            }
+            String name = JOptionPane.showInputDialog("Enter your name :");
+            
+//            final GsonBuilder builder = new GsonBuilder();
+//            final Gson gson = builder.create();
+            
+            
+//            String dataClient = gson.toJson(name);
+//            
+//            if(dataClient != null)
+        	socketOut.println(name);
+            
+        	String YouIn = socketIn.readLine();
+            System.out.println((YouIn.toString()) + " : is your name");
+            Player player = Player.fromString(YouIn);
+            
+            String player2In = socketIn.readLine();
+            System.out.println((player2In.toString()) + " : is your opponent");
+//            final Player player2 = gson.fromJson(player2In, Player.class);
+            Player player2 = Player.fromString(player2In);
+        	
+            
+        	Game newGame = new Game(player, player2);
+        	newGameSession = new GameSession(newGame);
+        			
+//            String servOut;
+//            while((servOut = socketIn.readLine()) != null) {
+//                // La tu print ce que le serv t'envoie
+//            	System.out.println(servOut + " : ServOut");
+//            	JSONObject dataServ = new JSONObject(servOut);
+//            	System.out.println(dataServ + " : dataServ");
+////            	player1.setMyCards((LinkedList<UNOCard>) dataServ.get("playerHand"));
+//            	ObjectInputStream objectIn = new ObjectInputStream(Main.getSocket().getInputStream());
+//            	LinkedList<UNOCard> myCards = (LinkedList<UNOCard>) objectIn.readObject();
+//            	getPlayer().setMyCards(myCards);
+//                objectIn.close();
+//            }
             socketOut.close();
             socketIn.close();
             socket.close();
@@ -75,7 +100,7 @@ public class Main {
 			public void run() {
 				JFrame frame;
 				try {
-					frame = new MainFrame();
+					frame = new MainFrame(newGameSession);
 					frame.setVisible(true);
 					frame.setResizable(false);
 					frame.setLocation(200, 100);
@@ -112,4 +137,5 @@ public class Main {
 	public static void setPlayer(Player player) {
 		Main.player = player;
 	}
+
 }

@@ -27,27 +27,10 @@ public class GameSession implements GameConstants {
 	private Session session;
 	private Stack<UNOCard> playedCards;
 	public boolean canPlay;
-	private int mode;
 	
-	public GameSession() throws ClassNotFoundException, IOException {
-		this.mode = requestMode();
-//		if (mode == 2) {
-//			try {
-//				Socket socket = new Socket("localhost", 4567);
-//				PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-//			    BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//			    String test = socketIn.readLine();
-//			    System.out.println(test);
-//			    socketOut.close();
-//			    socket.close();
-//			} catch (Exception exc) {
-//				System.err.println(exc.getMessage());
-//			}
-//			
-//			
-//		} else {
-			this.game = new Game(mode);
-//		}
+	public GameSession(Game newGame) throws ClassNotFoundException, IOException {
+		
+		this.game = newGame;
 		this.playedCards = new Stack<UNOCard>();
 		
 		// First Card

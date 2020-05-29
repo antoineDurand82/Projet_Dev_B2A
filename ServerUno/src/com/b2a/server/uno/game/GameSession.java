@@ -67,6 +67,7 @@ public class GameSession implements GameConstants {
 		UNOCard firstCard = this.game.getCard();
 		modifyFirstCard(firstCard);
 		
+		
 		this.playedCards.add(firstCard);
 //		this.session = new Session(game, firstCard);
 		

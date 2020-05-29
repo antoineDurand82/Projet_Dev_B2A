@@ -18,6 +18,8 @@ import com.b2a.server.uno.game.Game;
 import com.b2a.server.uno.game.GameSession;
 import com.b2a.server.uno.game.Player;
 import com.b2a.server.uno.view.UNOCard;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 
 public class Server {
 	
@@ -47,41 +49,80 @@ public class Server {
 	
 	public void clientConnection() {
 		try {
+			System.out.println("Server waiting for connection...");
 			ServerSocket serverSocket = new ServerSocket(4567);
 			Socket socket;
+			
+//			final GsonBuilder builder = new GsonBuilder();
+//            final Gson gson = builder.create();
+            
+            
 			while(true) {
+				
 				Socket socketPlayer1 = serverSocket.accept();
                 System.out.println("The first client has logged in !");
                 PrintWriter socketOutPlayer1 = new PrintWriter(socketPlayer1.getOutputStream(), true);
                 BufferedReader socketInPlayer1 = new BufferedReader(new InputStreamReader(socketPlayer1.getInputStream()));
-                socketOutPlayer1.println("Connexion établie avec le serveur");
+                
+                
                 String startPlayer1Out = socketInPlayer1.readLine();
-                JSONObject startDataPlayer1 = new JSONObject(startPlayer1Out);
-                String player1Name = (String) startDataPlayer1.get("name");
-                Player player1 = new Player(player1Name);
+//                
+//                final String player1Name = gson.fromJson(startPlayer1Out, String.class);
+                Player player1 = Player.fromString(startPlayer1Out);
                 
                 Socket socketPlayer2 = serverSocket.accept();
                 System.out.println("The second client has logged in !");
                 PrintWriter socketOutPlayer2 = new PrintWriter(socketPlayer2.getOutputStream(), true);
                 BufferedReader socketInPlayer2 = new BufferedReader(new InputStreamReader(socketPlayer2.getInputStream()));
-                socketOutPlayer2.println("Connexion établie avec le serveur");
+                
+                
                 String startPlayer2Out = socketInPlayer2.readLine();
-                JSONObject startDataPlayer2 = new JSONObject(startPlayer2Out);
-                String player2Name = (String) startDataPlayer2.get("name");
-                Player player2 = new Player(player2Name);
+                
+//                final String player2Name = gson.fromJson(startPlayer2Out, String.class);
+                Player player2 = Player.fromString(startPlayer2Out);
                 
                 Game newGame = new Game(2, player1, player2);
+                
+                
+                
+//                System.out.println(player1.toString() + " : Player 1 in serv");
+//                System.out.println(player2.toString() + " : Player 2 in serv");
+                
                 GameSession newGameSession = new GameSession(newGame);
                 
+                Player player1ToSend = newGame.getPlayers()[0];
+                System.out.println(player1ToSend.toString());
+                
+//                final String player1Sending = gson.toJson(player1ToSend);
+                socketOutPlayer1.println(player1.toString());
+                socketOutPlayer2.println(player1.toString());
+//            	System.out.println(player1.toString() + " : player1");
+            	
+//            	Player player2ToSend = newGame.getPlayers()[1];
+//            	final String player2Sending = gson.toJson(player2ToSend);
+            	socketOutPlayer2.println(player2.toString());
+            	socketOutPlayer1.println(player2.toString());
+//            	System.out.println(player2.toString() + " : player2");
+            	
+            	
+            	
+            	
+                
                 while (!newGame.isOver()) {
-					JSONObject toPlayer1 = new JSONObject();
 					
-					LinkedList<UNOCard> cardsToSend1 = newGame.getPlayers()[0].getAllCards();
-                	ObjectOutputStream objectOutCards1 = new ObjectOutputStream(socketPlayer1.getOutputStream());
-                	objectOutCards1.writeObject(cardsToSend1);
-                	objectOutCards1.close();
-					toPlayer1.put("topCard", newGameSession.getPlayedCards().peek());
-					toPlayer1.put("whoseTurn", newGame.whoseTurn());
+					
+					Player player1Sending = newGame.getPlayers()[0];
+					
+					socketOutPlayer1.println(player1Sending.toString());
+					
+                	UNOCard topcardToSend1 = newGameSession.getPlayedCards().peek();
+                	System.out.println(topcardToSend1 + " : topcardToSend1");
+                	ObjectOutputStream objectOutTopCards1 = new ObjectOutputStream(socketPlayer1.getOutputStream());
+                	System.out.println(objectOutTopCards1 + " : objectOutTopCards1");
+                	objectOutTopCards1.writeObject(topcardToSend1);
+                	System.out.println(objectOutTopCards1 + " : objectOutTopCards1WithTopCard");
+                	objectOutTopCards1.close();
+					//toPlayer1.put("whoseTurn", newGame.whoseTurn());
 					
 					
 					JSONObject toPlayer2 = new JSONObject();
@@ -89,7 +130,10 @@ public class Server {
                 	ObjectOutputStream objectOutCards2 = new ObjectOutputStream(socketPlayer2.getOutputStream());
                 	objectOutCards2.writeObject(cardsToSend2);
                 	objectOutCards2.close();
-					toPlayer2.put("topCard", newGameSession.getPlayedCards().peek());
+                	UNOCard topcardToSend2 = newGameSession.getPlayedCards().peek();
+                	ObjectOutputStream objectOutTopCards2 = new ObjectOutputStream(socketPlayer2.getOutputStream());
+                	objectOutTopCards2.writeObject(topcardToSend2);
+                	objectOutTopCards2.close();
 					toPlayer2.put("whoseTurn", newGame.whoseTurn());
 					
 					if(newGame.whoseTurn() == player1.getName()) {

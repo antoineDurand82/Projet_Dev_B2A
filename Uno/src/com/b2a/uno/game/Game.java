@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import org.json.JSONObject;
 
+import com.b2a.uno.game.Player;
 import com.b2a.uno.cardModel.*;
 import com.b2a.uno.interfaces.GameConstants;
 import com.b2a.uno.main.Main;
@@ -16,16 +17,14 @@ import com.b2a.uno.view.UNOCard;
 public class Game implements GameConstants {
 
 	private Player[] players;
-	private boolean isOver;
-	private int GAMEMODE;
 	
 	private Stack<UNOCard> cardStack;
 	
 	
-	public Game(int mode){
-		
-		GAMEMODE = mode;
+	public Game(Player player1, Player player2){
+		this.players = new Player[]{player1, player2};  
 	}
+
 
 	public Player[] getPlayers() {
 		return players;

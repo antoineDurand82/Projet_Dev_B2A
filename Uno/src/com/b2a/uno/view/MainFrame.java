@@ -17,8 +17,8 @@ public class MainFrame extends JFrame implements GameConstants {
 	private Session mainPanel;
 	private GameSession gameSession;
 	
-	public MainFrame() throws ClassNotFoundException, IOException{	
-		this.gameSession = new GameSession();
+	public MainFrame(GameSession newGameSession) throws ClassNotFoundException, IOException{	
+		this.gameSession = newGameSession;
 		CARDLISTENER.setGameSession(this.gameSession);
 		BUTTONLISTENER.setGameSession(this.gameSession);
 		
